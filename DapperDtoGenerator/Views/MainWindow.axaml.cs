@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 
 namespace DapperDtoGenerator.Views
 {
@@ -7,6 +8,11 @@ namespace DapperDtoGenerator.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
         }
     }
 }

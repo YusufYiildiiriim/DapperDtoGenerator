@@ -1,20 +1,56 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:DapperDtoGenerator.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="clr-namespace:DapperDtoGenerator.ViewModels"
         x:Class="DapperDtoGenerator.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="DapperDtoGenerator">
+        Width="900" Height="600"
+        Title="Dapper DTO Generator">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+	<Grid ColumnDefinitions="350,*" RowDefinitions="Auto,Auto,Auto,*,Auto,Auto" Margin="15">
+		
+		<StackPanel Grid.Column="0" Spacing="10" Margin="0,0,15,0">
+			<StackPanel>
+				<TextBlock Text="Database Type" FontWeight="Bold" Margin="0,0,0,5"/>
+				<ComboBox ItemsSource="{Binding DatabaseTypes}"
+						  SelectedItem="{Binding SelectedDatabase}"
+						  HorizontalAlignment="Stretch"/>
+			</StackPanel>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			<StackPanel>
+				<TextBlock Text="Connection String" FontWeight="Bold" Margin="0,0,0,5"/>
+				<TextBox Text="{Binding ConnectionString}" Watermark="Server=...;Database=...;" Height="60" AcceptsReturn="True" TextWrapping="Wrap"/>
+			</StackPanel>
 
+			<StackPanel>
+				<TextBlock Text="SQL Query" FontWeight="Bold" Margin="0,0,0,5"/>
+				<TextBox Text="{Binding SqlQuery}" Watermark="SELECT * FROM Users" Height="150" AcceptsReturn="True" TextWrapping="Wrap" FontFamily="Consolas"/>
+			</StackPanel>
+
+			<StackPanel>
+				<TextBlock Text="Generate Type" FontWeight="Bold" Margin="0,0,0,5"/>
+				<ComboBox SelectedItem="{Binding GenerateType}" HorizontalAlignment="Stretch">
+					<ComboBoxItem Content="Class"/>
+					<ComboBoxItem Content="Properties Only"/>
+				</ComboBox>
+			</StackPanel>
+
+			<Button Content="GENERATE DTO"
+					Command="{Binding GenerateCommand}"
+					Classes="accent"
+					HorizontalAlignment="Stretch"
+					Height="45" Margin="0,10,0,0"/>
+
+			<Button Content="Save Settings"
+					Command="{Binding SaveSettingsCommand}"
+					HorizontalAlignment="Stretch"/>
+		</StackPanel>
+
+	
+		<TextBox Grid.Column="1"
+				 Text="{Binding Result}"
+				 AcceptsReturn="True"
+				 IsReadOnly="True"
+				 FontFamily="Consolas"
+				 Watermark="Generated C# code will appear here..."/>
+	</Grid>
 </Window>
